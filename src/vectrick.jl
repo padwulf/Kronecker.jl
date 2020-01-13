@@ -92,3 +92,16 @@ function Base.sum(K::AbstractKroneckerProduct; dims::Union{Nothing,Int}=nothing)
         return kronecker(sum(A, dims=dims), sum(B, dims=dims))
     end
 end
+
+#---------
+
+function getAllMatrices(a::AbstractArray, K::AbstractKroneckerProduct)
+    M,N = getmatrices(K)
+    push!(a,N)
+    if order(M)>1
+        getAllMatrices(a,M)
+    else
+        push!(a,M)
+    end
+    return a
+end
